@@ -61,12 +61,12 @@ function playGame(){
     // console.log(computerScore);
 
     if (humanScore > computerScore){
-        gameResult = `you won the game after ${roundNumber-1} rounds. Score was ${humanScore} human vs. ${computerScore}`;
+        gameResult = `you won the game after ${roundNumber-1} rounds. Score was ${humanScore} human vs. ${computerScore}. And ${5-humanScore-computerScore} ties`;
     } else if (humanScore < computerScore){
-        gameResult = `computer won the game after ${roundNumber-1} rounds. Score was ${humanScore} human vs. ${computerScore}`
+        gameResult = `computer won the game after ${roundNumber-1} rounds. Score was ${humanScore} human vs. ${computerScore}. And ${5-humanScore-computerScore} ties`
     }
     else {
-        gameResult = `you tied the game after ${roundNumber-1} rounds. Score was ${humanScore} human vs. ${computerScore}`
+        gameResult = `you tied the game after ${roundNumber-1} rounds.`;
     }
     // console.log(gameResult);
     return gameResult;
