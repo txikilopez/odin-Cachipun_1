@@ -1,4 +1,4 @@
-console.log("Hello World");
+// console.log("Hello World");
 // Define 1: Rock, 2: Paper, 3: Scissor
 // Create function that gets the choice for the computer
 
@@ -6,6 +6,11 @@ let humanScore = 0;
 let computerScore = 0;
 let roundNumber = 1;
 
+let gameResultGlobal = playGame();
+console.log(gameResultGlobal);
+
+
+// assign paper, rock, scissors depending on random number
 function getComputerChoice(){
     let computerSelectionNum = Math.floor(Math.random()*3)+1;
     computerSelectionStr = convertNumberToAction(computerSelectionNum);
@@ -22,8 +27,9 @@ function getHumanChoice(){
        }
 }
 
+
 function playRound(humanChoice, computerChoice){
-    let winner = parseInt(chooseWinner());
+    let winner = parseInt(chooseWinner(humanChoice,computerChoice));
 
     if (winner === 3){
         return `Tie, both parties chose ${humanChoice}`
@@ -37,6 +43,35 @@ function playRound(humanChoice, computerChoice){
         return `You won! You wisely chose ${humanChoice} vs. ${computerChoice}`;
     }
 }
+
+function playGame(){
+    roundNumber=1;
+    let humanSelection;
+    let computerSelection;
+    let gameResult;
+
+    for(roundNumber=1;roundNumber<=5;roundNumber++){
+        humanSelection = getHumanChoice();
+        computerSelection = getComputerChoice();
+        let roundResult = playRound(humanSelection,computerSelection);
+        console.log(roundResult);
+    }
+
+    // console.log(humanScore);
+    // console.log(computerScore);
+
+    if (humanScore > computerScore){
+        gameResult = `you won the game after ${roundNumber-1} rounds. Score was ${humanScore} human vs. ${computerScore}`;
+    } else if (humanScore < computerScore){
+        gameResult = `computer won the game after ${roundNumber-1} rounds. Score was ${humanScore} human vs. ${computerScore}`
+    }
+    else {
+        gameResult = `you tied the game after ${roundNumber-1} rounds. Score was ${humanScore} human vs. ${computerScore}`
+    }
+    // console.log(gameResult);
+    return gameResult;
+}
+
 
 //Return 1 if human won, return 2 if computer won, 3 if tie
 function chooseWinner(a,b){
