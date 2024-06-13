@@ -6,8 +6,44 @@ let humanScore = 0;
 let computerScore = 0;
 let roundNumber = 1;
 
-let gameResultGlobal = playGame();
-console.log(gameResultGlobal);
+
+const buttonPressed = document.querySelector(".buttons");
+const resultCounter = document.querySelector(".resultCounter");
+const outputResultFinal = document.querySelector(".finalScore");
+    
+buttonPressed.addEventListener("click",(e)=>{
+    if (roundNumber <=5){
+        let humanChoiceAux = ""; 
+        let computerChoiceAux = "";
+        let roundResultNotification = [];
+        let target = e.target;
+        switch(target.id) {
+            case "btnRock":
+                humanChoiceAux =  "Rock";
+            break;
+            case "btnPaper":
+                humanChoiceAux = "Paper"
+            break;
+            case "btnScissors":
+                humanChoiceAux = "Scissors"
+            break;
+            }
+        computerChoiceAux = getComputerChoice();
+        //play the game
+        roundResultNotification = playRound(humanChoiceAux,computerChoiceAux);
+        resultCounter.textContent = `After ${roundNumber} rounds -- Human: ${roundResultNotification[1]} vs. Computer: ${roundResultNotification[2]}`;
+
+        outputResultFinal.textContent = roundResultNotification[0];
+        roundNumber++;
+    }
+    else outputResultFinal.textContent = `Sorry, you already played ${roundNumber-1} games`;
+        
+    },)
+    
+
+
+// let gameResultGlobal = playGame();
+// console.log(gameResultGlobal);
 
 
 // assign paper, rock, scissors depending on random number
@@ -17,31 +53,25 @@ function getComputerChoice(){
     return computerSelectionStr;
 }
 
-// Create function that gets the choice for the human. If not a valid choice, prompt again.
-function getHumanChoice(){
-    let humanSelectionNum = +prompt("Please choose:\n1 for Rock,\n2 for Paper,\n3 for Scissors");
-    if (!humanSelectionNum || humanSelectionNum>3 || humanSelectionNum<1) {getHumanChoice()}
-    else{
-    humanSelectionStr = convertNumberToAction(humanSelectionNum);
-    return humanSelectionStr;
-       }
-}
-
 
 function playRound(humanChoice, computerChoice){
     let winner = parseInt(chooseWinner(humanChoice,computerChoice));
+    let winnerMessage = "";
 
     if (winner === 3){
-        return `Tie, both parties chose ${humanChoice}`
+        winnerMessage =  `Tie, both parties chose ${humanChoice}`;
+        computerScore += 1;
+        humanScore += 1;
     }
     else if (winner === 2){
         computerScore += 1;
-        return `You lose! Computer chose ${computerChoice}, and you chose ${humanChoice}`;
+        winnerMessage =   `Loser!! Computer chose ${computerChoice}, and you chose ${humanChoice}`;
     }
     else {
         humanScore += 1;
-        return `You won! You wisely chose ${humanChoice} vs. ${computerChoice}`;
+        winnerMessage = `Winner!! You chose ${humanChoice} computer chose ${computerChoice}`;
     }
+    return [winnerMessage,humanScore,computerScore];
 }
 
 function playGame(){
