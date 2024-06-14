@@ -7,3 +7,7 @@ h1{
     font-size: larger;
     font-weight: 900;
 }
+
+li{
+    margin-bottom: 8px;
+}

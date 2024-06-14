@@ -11,10 +11,8 @@ const roundsToPlay = 5;
 const buttonPressed = document.querySelector(".buttons");
 const resultCounter = document.querySelector(".resultCounter");
 const outputResultFinal = document.querySelector(".finalScore");
-const listResult = document.querySelector(".ResultList")
-const WinnerAnnouncement = document.querySelector(".finalScoreWinner");
-
-
+const listResult = document.querySelector(".resultList")
+const winnerAnnouncement = document.querySelector(".finalScoreWinner");
 
 buttonPressed.addEventListener("click",(e)=>{
     if (roundNumber <=roundsToPlay){
@@ -44,18 +42,31 @@ buttonPressed.addEventListener("click",(e)=>{
         currentComputerScore = roundResultNotification[2];
         resultCounter.textContent = `After ${roundNumber} rounds -- Human: ${currentHumanScore} vs. Computer: ${currentComputerScore}`;
 
-        outputResultFinal.textContent = "Current round: " + roundResultNotification[0];
-        console.log(roundNumber);
+        // const li = document.createElement("li");
+        // li.textContent = "Round: " + roundNumber + ", "+roundResultNotification[0];
+        // listResult.appendChild(li);
+        listCurrentRound(roundNumber,roundResultNotification[0]);
+
+
+        // outputResultFinal.textContent = "Current round: " + roundResultNotification[0];
+        // console.log(roundNumber);
         roundNumber++;
 
-        if(roundNumber == 6 && currentHumanScore>currentComputerScore) { WinnerAnnouncement.textContent = `You won the game after ${roundNumber-1} rounds`; }
-        if(roundNumber == 6 && currentHumanScore<currentComputerScore) { WinnerAnnouncement.textContent = `You lost the game after ${roundNumber-1} rounds`;}
-        if(roundNumber == 6 && currentHumanScore==currentComputerScore) { WinnerAnnouncement.textContent = `You tied after ${roundNumber-1} rounds`;}
+        if(roundNumber == 6 && currentHumanScore>currentComputerScore) { winnerAnnouncement.textContent = `You won the game after ${roundNumber-1} rounds`; }
+        if(roundNumber == 6 && currentHumanScore<currentComputerScore) { winnerAnnouncement.textContent = `You lost the game after ${roundNumber-1} rounds`;}
+        if(roundNumber == 6 && currentHumanScore==currentComputerScore) { winnerAnnouncement.textContent = `You tied after ${roundNumber-1} rounds`;}
         
     }
     else outputResultFinal.textContent = `Sorry, you already played ${roundNumber-1} games, hit refresh or go do something else.`;
         
     },)
+
+    function listCurrentRound(currentRound,resultMessage){
+        const li = document.createElement("li");
+        li.textContent = "Round: " + currentRound + ", "+resultMessage;
+        listResult.appendChild(li);
+    }
+    
 
     
 
