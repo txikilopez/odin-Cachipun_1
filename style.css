@@ -1,3 +1,9 @@
 h1{
     font-weight: 700;
 }
+
+.finalScoreWinner{
+    color: red;
+    font-size: larger;
+    font-weight: 900;
+}

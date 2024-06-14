@@ -5,18 +5,27 @@
 let humanScore = 0;
 let computerScore = 0;
 let roundNumber = 1;
+const roundsToPlay = 5;
 
 
 const buttonPressed = document.querySelector(".buttons");
 const resultCounter = document.querySelector(".resultCounter");
 const outputResultFinal = document.querySelector(".finalScore");
-    
+const listResult = document.querySelector(".ResultList")
+const WinnerAnnouncement = document.querySelector(".finalScoreWinner");
+
+
+
 buttonPressed.addEventListener("click",(e)=>{
-    if (roundNumber <=5){
+    if (roundNumber <=roundsToPlay){
         let humanChoiceAux = ""; 
         let computerChoiceAux = "";
         let roundResultNotification = [];
         let target = e.target;
+        let currentHumanScore = 0;
+        let currentComputerScore = 0;
+        let winnerMessage="1";
+
         switch(target.id) {
             case "btnRock":
                 humanChoiceAux =  "Rock";
@@ -31,20 +40,24 @@ buttonPressed.addEventListener("click",(e)=>{
         computerChoiceAux = getComputerChoice();
         //play the game
         roundResultNotification = playRound(humanChoiceAux,computerChoiceAux);
-        resultCounter.textContent = `After ${roundNumber} rounds -- Human: ${roundResultNotification[1]} vs. Computer: ${roundResultNotification[2]}`;
+        currentHumanScore = roundResultNotification[1];
+        currentComputerScore = roundResultNotification[2];
+        resultCounter.textContent = `After ${roundNumber} rounds -- Human: ${currentHumanScore} vs. Computer: ${currentComputerScore}`;
 
-        outputResultFinal.textContent = roundResultNotification[0];
+        outputResultFinal.textContent = "Current round: " + roundResultNotification[0];
+        console.log(roundNumber);
         roundNumber++;
+
+        if(roundNumber == 6 && currentHumanScore>currentComputerScore) { WinnerAnnouncement.textContent = `You won the game after ${roundNumber-1} rounds`; }
+        if(roundNumber == 6 && currentHumanScore<currentComputerScore) { WinnerAnnouncement.textContent = `You lost the game after ${roundNumber-1} rounds`;}
+        if(roundNumber == 6 && currentHumanScore==currentComputerScore) { WinnerAnnouncement.textContent = `You tied after ${roundNumber-1} rounds`;}
+        
     }
-    else outputResultFinal.textContent = `Sorry, you already played ${roundNumber-1} games`;
+    else outputResultFinal.textContent = `Sorry, you already played ${roundNumber-1} games, hit refresh or go do something else.`;
         
     },)
+
     
-
-
-// let gameResultGlobal = playGame();
-// console.log(gameResultGlobal);
-
 
 // assign paper, rock, scissors depending on random number
 function getComputerChoice(){
@@ -73,35 +86,6 @@ function playRound(humanChoice, computerChoice){
     }
     return [winnerMessage,humanScore,computerScore];
 }
-
-function playGame(){
-    roundNumber=1;
-    let humanSelection;
-    let computerSelection;
-    let gameResult;
-
-    for(roundNumber=1;roundNumber<=5;roundNumber++){
-        humanSelection = getHumanChoice();
-        computerSelection = getComputerChoice();
-        let roundResult = playRound(humanSelection,computerSelection);
-        console.log(roundResult);
-    }
-
-    // console.log(humanScore);
-    // console.log(computerScore);
-
-    if (humanScore > computerScore){
-        gameResult = `you won the game after ${roundNumber-1} rounds. Score was ${humanScore} human vs. ${computerScore}. And ${5-humanScore-computerScore} ties`;
-    } else if (humanScore < computerScore){
-        gameResult = `computer won the game after ${roundNumber-1} rounds. Score was ${humanScore} human vs. ${computerScore}. And ${5-humanScore-computerScore} ties`
-    }
-    else {
-        gameResult = `you tied the game after ${roundNumber-1} rounds.`;
-    }
-    // console.log(gameResult);
-    return gameResult;
-}
-
 
 //Return 1 if human won, return 2 if computer won, 3 if tie
 function chooseWinner(a,b){
